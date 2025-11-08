@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  h1= title
+  p Use the URL query string, e.g. ?rows=5&cols=4
+
+  p Query rows: #{query.rows}
+  p Query cols: #{query.cols}
+
+  - var rows = Number(query && query.rows)
+  - var cols = Number(query && query.cols)
+
+  if !Number.isInteger(rows) || !Number.isInteger(cols)
+    p Rows and cols must be integers.
+  else if rows < 3 || rows > 13
+    p Rows out of range (3–13): #{rows}
+  else if cols < 3 || cols > 13
+    p Cols out of range (3–13): #{cols}
+  else
+    table#outer
+      thead
+        tr
+          th(colspan=cols) Generated Grid (value = row + 2*col)
+      tbody
+        - for (var i = 0; i < rows; i++) {
+          tr#middle
+            - for (var j = 0; j < cols; j++) {
+              - var val = i + 2*j
+              td= val
+            - }
+        - }

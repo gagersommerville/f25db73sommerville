@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  
+
+  -
+    var image_names = ['everest.jpg', 'denali.jpg', 'fuji.jpg', 'everest2.jpg', 'denali2.jpg'];
+
+  .container.mt-3
+    .row.g-3
+      - for (var k = 0; k < 3; k++) {
+        - var idx = Math.floor(Math.random() * image_names.length)
+        - var name = image_names[idx]
+        .col-sm-4.text-center
+          img(src=`/images/${name}` alt=name width="300" height="300")
+      - }

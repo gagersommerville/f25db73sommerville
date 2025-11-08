@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}, and this change haha.
+
+  button(type="button", class="btn btn-secondary mt-3", onclick="faster()") Sample Button
+
+  #faster add in extra 
+
+  script.
+    let value = 1;
+    let amt = 2;
+
+    function faster() {
+      amt = amt * 2;
+      value = value + amt;
+      const div = document.getElementById('faster');
+      if (div) {
+        div.textContent = `Faster ${value} times ${amt}`;
+    }
+    }
+  
+  p.mt-4
+    a(href="/mountains") View Mountain Search Results
