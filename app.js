@@ -1,3 +1,42 @@
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON;
+
+mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+mongoose.connect(connectionString);
+
+// Get the default connection
+var db = mongoose.connection;
+
+// Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+db.once("open", function(){
+    console.log("Connection to DB succeeded")
+});
+
+var Costume = require("./models/costume");
+
+// Seed DB once
+async function recreateDB(){
+    await Costume.deleteMany();
+
+    let instance1 = new Costume({
+        costume_type:"ghost",
+        size:'large',
+        cost:15.4
+    });
+
+    instance1.save().then(doc=>{
+        console.log("First object saved")
+    }).catch(err=>{
+        console.error(err)
+    });
+}
+
+let reseed = true;
+if (reseed) { recreateDB(); }
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,6 +48,7 @@ var usersRouter = require('./routes/users');
 var mountainsRouter = require('./routes/mountains');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
+var resourceRouter = require('./routes/resource');
 
 var app = express();
 
@@ -27,6 +67,7 @@ app.use('/users', usersRouter);
 app.use('/mountains', mountainsRouter);
 app.use('/gridbuild', gridRouter);
 app.use('/selector', pickRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
