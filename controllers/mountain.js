@@ -15,8 +15,21 @@ exports.mountain_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Mountain detail: ' + req.params.id);
 };
 
-exports.mountain_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Moutain create POST');
+exports.mountain_create_post = async function(req, res) {
+  console.log('POST /resource/mountains body:', req.body);
+
+  let document = new Mountain();
+  document.name = req.body.name;
+  document.height = req.body.height;
+  document.range = req.body.range;
+
+  try {
+    let result = await document.save();
+    res.send(result);
+  } catch (err) {
+    res.status(500);
+    res.send(`{"error": "${err}"}`);
+  }
 };
 
 exports.mountain_delete = function(req, res) {

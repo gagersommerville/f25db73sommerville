@@ -46,7 +46,7 @@ async function recreateDB(){
   console.log('Sample mountains saved');
 }
 
-let reseed = false; 
+let reseed = true; 
 if (reseed) {
   recreateDB().catch(err => console.error(err));
 }
