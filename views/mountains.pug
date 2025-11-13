@@ -3,17 +3,14 @@ extends layout
 block content
   h1= title
 
-  -
-    var results = [
-      { name: 'Everest', height: 29032, range: 'Himalayas' },
-      { name: 'Denali',  height: 20310, range: 'Alaska Range' },
-      { name: 'Fuji',    height: 12389, range: 'Fuji Volcanic' }
-    ];
-
   .container-fluid
     .row
-      each mtn in results
-        .col-sm-2
-          p Name: #{mtn.name}
-          p Height: #{mtn.height}
-          p Range: #{mtn.range}
+      if results && results.length
+        each mtn in results
+          .col-sm-2
+            p Name: #{mtn.name}
+            p Height: #{mtn.height}
+            p Range: #{mtn.range}
+      else
+        .col-sm-12
+          p No mountains found.

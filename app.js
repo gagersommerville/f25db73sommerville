@@ -15,27 +15,41 @@ db.once("open", function(){
     console.log("Connection to DB succeeded")
 });
 
-var Costume = require("./models/costume");
+const Mountain = require("./models/mountain");
 
 // Seed DB once
 async function recreateDB(){
-    await Costume.deleteMany();
+  await Mountain.deleteMany();
 
-    let instance1 = new Costume({
-        costume_type:"ghost",
-        size:'large',
-        cost:15.4
-    });
+  const instance1 = new Mountain({
+    name: 'Everest',
+    height: 29032,
+    range: 'Himalayas'
+  });
 
-    instance1.save().then(doc=>{
-        console.log("First object saved")
-    }).catch(err=>{
-        console.error(err)
-    });
+  const instance2 = new Mountain({
+    name: 'Denali',
+    height: 20310,
+    range: 'Alaska Range'
+  });
+
+  const instance3 = new Mountain({
+    name: 'Fuji',
+    height: 12389,
+    range: 'Fuji Volcanic'
+  });
+
+  await instance1.save();
+  await instance2.save();
+  await instance3.save();
+
+  console.log('Sample mountains saved');
 }
 
-let reseed = true;
-if (reseed) { recreateDB(); }
+let reseed = false; 
+if (reseed) {
+  recreateDB().catch(err => console.error(err));
+}
 
 var createError = require('http-errors');
 var express = require('express');
