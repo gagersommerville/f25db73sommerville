@@ -48,8 +48,29 @@ exports.mountain_delete = function(req, res) {
     res.send('NOT IMPLEMENTED: Mountain delete DELETE ' + req.params.id);
 };
 
-exports.mountain_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Mountain update PUT ' + req.params.id);
+exports.mountain_update_put = async function(req, res) {
+  console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+
+  try {
+    let toUpdate = await Mountain.findById(req.params.id);
+
+    if (!toUpdate) {
+      res.status(500);
+      res.send(`{"error": document for id ${req.params.id} not found"}`);
+      return;
+    }
+
+    if (req.body.name)   toUpdate.name   = req.body.name;
+    if (req.body.height) toUpdate.height = req.body.height;
+    if (req.body.range)  toUpdate.range  = req.body.range;
+
+    let result = await toUpdate.save();
+    console.log("Success " + result);
+    res.send(result);
+  } catch (err) {
+    res.status(500);
+    res.send(`{"error": ${err}: Update for id ${req.params.id} failed"}`);
+  }
 };
 
 exports.mountain_view_all_Page = async function(req, res) {
