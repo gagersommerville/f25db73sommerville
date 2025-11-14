@@ -11,8 +11,20 @@ exports.mountain_list = async function(req, res) {
 };
 
 
-exports.mountain_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Mountain detail: ' + req.params.id);
+exports.mountain_detail = async function(req, res) {
+  console.log("detail " + req.params.id);
+  try {
+    let result = await Mountain.findById(req.params.id);
+    if (result) {
+      res.send(result);
+    } else {
+      res.status(500);
+      res.send(`{"error": document for id ${req.params.id} not found"}`);
+    }
+  } catch (error) {
+    res.status(500);
+    res.send(`{"error": document for id ${req.params.id} not found"}`);
+  }
 };
 
 exports.mountain_create_post = async function(req, res) {
