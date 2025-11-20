@@ -3,14 +3,20 @@ extends layout
 block content
   h1= title
 
+  a.btn.btn-primary.mb-3(href="/mountains/create") Create New Mountain
+
   .container-fluid
     .row
       if results && results.length
         each mtn in results
-          .col-sm-2
+          .col-sm-3.mb-3
             p Name: #{mtn.name}
             p Height: #{mtn.height}
             p Range: #{mtn.range}
+
+            a.btn.btn-sm.btn-info.mr-1(href=`/mountains/detail?id=${mtn._id}`) Detail
+            a.btn.btn-sm.btn-warning.mr-1(href=`/mountains/update?id=${mtn._id}`) Update
+            a.btn.btn-sm.btn-danger(href=`/mountains/delete?id=${mtn._id}`) Delete
       else
         .col-sm-12
           p No mountains found.

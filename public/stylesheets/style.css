@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.mountainAttr {
+  background-color: aquamarine;
+  width: 140px;
+  padding: 4px;
+  border-radius: 4px;
+  font-weight: 500;
+}

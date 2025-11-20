@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+
+  - let mountainid = toShow._id
+  - let mountain_name = toShow.name
+  - let mountain_height = toShow.height
+  - let mountain_range = toShow.range
+
+  .row
+    .mountainAttr.mr-3 Mountain ID:
+    div #{mountainid}
+  .row
+    .mountainAttr.mr-3 Name:
+    div #{mountain_name}
+  .row
+    .mountainAttr.mr-3 Height:
+    div #{mountain_height}
+  .row
+    .mountainAttr.mr-3 Range:
+    div #{mountain_range}

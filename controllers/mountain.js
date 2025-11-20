@@ -93,3 +93,17 @@ exports.mountain_view_all_Page = async function(req, res) {
     res.send(`{"error": "${err}"}`);
   }
 };
+
+exports.mountain_view_one_Page = async function(req, res) {
+  console.log("single view for id " + req.query.id);
+  try {
+    let result = await Mountain.findById(req.query.id);
+    res.render('mountaindetail', {
+      title: 'Mountain Detail',
+      toShow: result
+    });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
+  }
+};
