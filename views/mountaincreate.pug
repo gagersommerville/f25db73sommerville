@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  h1= title
+
+  form(id='MountainForm', action="/resource/mountains", method="POST")
+    .form-group
+      label.mountainAttr(for='name') Name
+      input#name(type='text', name='name')
+    .form-group
+      label.mountainAttr(for='height') Height
+      input#height(type='number', name='height')
+    .form-group
+      label.mountainAttr(for='range') Range
+      input#range(type='text', name='range')
+    input(type="submit" value="Create Mountain")
+
+  script.
+    document.forms['MountainForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target))
+      }).then((resp) => {
+        return resp.json();
+      }).then((body) => {
+        alert("Save succeeded");
+      }).catch((error) => {
+        alert("Save failed " + error);
+      });
+    });

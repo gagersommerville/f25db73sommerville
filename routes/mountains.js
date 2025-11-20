@@ -6,4 +6,7 @@ router.get('/', mountain_controller.mountain_view_all_Page);
 //Get detail page
 router.get('/detail', mountain_controller.mountain_view_one_Page);
 
+//Create page
+router.get('/create', mountain_controller.mountain_create_Page);
+
 module.exports = router;
