@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  h1= title
+
+  - let mountainid = toShow._id
+  - let mountain_name = toShow.name
+  - let mountain_height = toShow.height
+  - let mountain_range = toShow.range
+
+  .row.mb-2
+    .mr-1 ID is:
+    div #{mountainid}
+
+  - let actionid = "/resource/mountains/" + mountainid
+
+  form(id='MountainUpdateForm', action=actionid, method="POST")
+    .form-group
+      label.mountainAttr(for='name') Name
+      input#name(type='text', name='name', value=mountain_name)
+    .form-group
+      label.mountainAttr(for='height') Height
+      input#height(type='number', name='height', value=mountain_height)
+    .form-group
+      label.mountainAttr(for='range') Range
+      input#range(type='text', name='range', value=mountain_range)
+    input(type="submit" value="Update Mountain")
+
+  script.
+    document.forms['MountainUpdateForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target))
+      }).then((resp) => {
+        return resp.json();
+      }).then((body) => {
+        alert("Update succeeded");
+      }).catch((error) => {
+        alert("Update failed " + error);
+      });
+    });
