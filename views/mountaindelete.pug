@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  h1= title
+
+  if !toShow
+    p No mountain found with that id.
+  else
+    - let mountainid = toShow._id
+    - let mountain_name = toShow.name
+    - let mountain_height = toShow.height
+    - let mountain_range = toShow.range
+
+    .row.mb-2
+      .mountainAttr.mr-2 ID:
+      div #{mountainid}
+    .row.mb-2
+      .mountainAttr.mr-2 Name:
+      div #{mountain_name}
+    .row.mb-2
+      .mountainAttr.mr-2 Height:
+      div #{mountain_height}
+    .row.mb-4
+      .mountainAttr.mr-2 Range:
+      div #{mountain_range}
+
+    - let actionid = "/resource/mountains/" + mountainid
+
+    button#deleteBtn.btn.btn-danger.mr-2 Delete
+    button#cancelBtn.btn.btn-secondary Cancel
+
+    script.
+      document.getElementById('deleteBtn').addEventListener('click', () => {
+        fetch("#{actionid}", { method: 'DELETE' })
+          .then(resp => resp.json())
+          .then(body => {
+            alert("Delete succeeded");
+            window.location.href = "/mountains";
+          })
+          .catch(err => {
+            alert("Delete failed " + err);
+          });
+      });
+
+      document.getElementById('cancelBtn').addEventListener('click', () => {
+        window.location.href = "/mountains";
+      });

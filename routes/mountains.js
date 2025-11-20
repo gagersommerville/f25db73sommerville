@@ -12,4 +12,7 @@ router.get('/create', mountain_controller.mountain_create_Page);
 //Update Page
 router.get('/update', mountain_controller.mountain_update_Page);
 
+//Delete Page
+router.get('/delete', mountain_controller.mountain_delete_Page);
+
 module.exports = router;

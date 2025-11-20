@@ -131,3 +131,17 @@ exports.mountain_update_Page = async function(req, res) {
     res.send(`{'error': '${err}'}`);
   }
 };
+
+exports.mountain_delete_Page = async function(req, res) {
+  console.log("Delete view for id " + req.query.id);
+  try {
+    let result = await Mountain.findById(req.query.id);
+    res.render('mountaindelete', { 
+      title: 'Mountain Delete', 
+      toShow: result 
+    });
+  } catch (err) {
+    res.status(500);
+    res.send(`{'error': '${err}'}`);
+  }
+};
