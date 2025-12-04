@@ -1,25 +1,21 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}, and this change haha.
+  .container
+    if !user
+      h1= title
+      p Welcome to the Mountain App. Please log in or register to continue.
+      br
+      a.btn.btn-primary(href="/login") Login
+      br
+      br
+      a.btn.btn-secondary(href="/register") Register
 
-  button(type="button", class="btn btn-secondary mt-3", onclick="faster()") Sample Button
-
-  #faster add in extra 
-
-  script.
-    let value = 1;
-    let amt = 2;
-
-    function faster() {
-      amt = amt * 2;
-      value = value + amt;
-      const div = document.getElementById('faster');
-      if (div) {
-        div.textContent = `Faster ${value} times ${amt}`;
-    }
-    }
-  
-  p.mt-4
-    a(href="/mountains") View Mountain Search Results
+    if user
+      h1= title
+      p You are currently logged in as #{user.username}
+      br
+      a.btn.btn-primary(href="/mountains") Take me to mountains
+      br
+      br
+      a.btn.btn-danger(href="/logout") Logout

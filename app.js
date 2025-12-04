@@ -87,6 +87,10 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -96,37 +100,6 @@ app.use('/gridbuild', gridRouter);
 app.use('/selector', pickRouter);
 app.use('/resource', resourceRouter);
 
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    Account.findOne({ username: username })
-    .then(function(user) {
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-
-      user.authenticate(password, function(err, result) {
-        if (err) { return done(err); }
-        if (!result.user) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, result.user);
-      });
-    })
-    .catch(function(err) {
-      return done(err);
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  Account.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
