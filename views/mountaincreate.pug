@@ -21,11 +21,18 @@ block content
       fetch(event.target.action, {
         method: 'POST',
         body: new URLSearchParams(new FormData(event.target))
-      }).then((resp) => {
-        return resp.json();
-      }).then((body) => {
-        alert("Save succeeded");
-      }).catch((error) => {
-        alert("Save failed " + error);
-      });
+      }).then(async (resp) => {
+        if (!resp.ok) {
+        const text = await resp.text();
+        alert("Save failed: " + text);
+        return;
+      }
+      const body = await resp.json();
+      alert("Save succeeded");
+
+      window.location.href = "/mountains";
+    })
+    .catch((error) => {
+      alert("Save failed: " + error);
+    });
     });
