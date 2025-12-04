@@ -66,18 +66,17 @@ router.get('/login', function(req, res) {
   res.render('login', {
     title: 'Mountain App Login',
     user: req.user,
-    message: ''
   });
 });
 
 // POST login
 router.post(
   '/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local'),
   function(req, res) {
     res.redirect('/');
-  }
-);
+
+});
 
 // GET logout
 router.get('/logout', function(req, res, next) {

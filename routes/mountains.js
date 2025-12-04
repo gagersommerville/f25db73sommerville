@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const mountain_controller = require('../controllers/mountain');
+
+const secured = (req, res, next) => {
+  if (req.user) {
+    return next();
+  }
+  res.redirect('/login');
+};
+
 router.get('/', mountain_controller.mountain_view_all_Page);
 
 //Get detail page
@@ -10,7 +18,7 @@ router.get('/detail', mountain_controller.mountain_view_one_Page);
 router.get('/create', mountain_controller.mountain_create_Page);
 
 //Update Page
-router.get('/update', mountain_controller.mountain_update_Page);
+router.get('/update', secured, mountain_controller.mountain_update_Page);
 
 //Delete Page
 router.get('/delete', mountain_controller.mountain_delete_Page);
